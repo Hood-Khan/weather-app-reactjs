@@ -1,8 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const [city, setCity] = useState("");
+
+  useEffect(()=>{
+    console.log(city);
+    // fe36e6c45e9b15fd212cf713c6288ee7
+    // axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fe36e6c45e9b15fd212cf713c6288ee7&units=metric`)
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=fe36e6c45e9b15fd212cf713c6288ee7`)
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  },[city])
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-slate-900 px-4">
+      <input type="text" onChange={(e)=>setCity(e.target.value)}/>
       {/* Card */}
       <div
   className="
