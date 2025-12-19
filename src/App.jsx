@@ -15,6 +15,7 @@ function App() {
   const [visibility, setVisibility] = useState(null);
   const [feelsLike, setFeelsLike] = useState(null);
   const [clouds, setClouds] = useState(null);
+  const [weatherIcon, setWeatherIcon] = useState("");
 
   useEffect(() => {
     axios
@@ -23,6 +24,7 @@ function App() {
       )
       .then((response) => {
         const data = response.data;
+        console.log(data);
 
         setTemp(data.main.temp);
         setTempMax(data.main.temp_max);
@@ -36,6 +38,12 @@ function App() {
         setCountry(data.sys.country);
         setFeelsLike(response.data.main.feels_like);
         setClouds(response.data.clouds.all);
+
+        const iconCode = data.weather[0].icon
+
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+        setWeatherIcon(iconUrl);
       })
       .catch((error) => console.log(error));
   }, [city]);
@@ -53,7 +61,7 @@ function App() {
         placeholder="Enter city name"
       />
 
-      {/* Card (UNCHANGED) */}
+      {/* Card  */}
       <div
         className="
           relative bg-slate-800
@@ -88,15 +96,21 @@ function App() {
 
         {/* Weather Icon */}
         <div className="flex justify-center mt-4 md:mt-4">
-          <div
+          {/* <div
             className="
               w-32 h-32 md:w-40 md:h-40
               bg-slate-900/70 backdrop-blur
               rounded-full flex items-center justify-center
               shadow-xl border border-white/10
             "
+          > */}
+          <div
+            className="
+              w-32 h-32 md:w-40 md:h-40
+              flex items-center justify-center
+            "
           >
-            <span className="text-5xl md:text-6xl">⛅</span>
+            <span className="text-5xl md:text-6xl">{weatherIcon ? <img src={weatherIcon} alt="Weather Icon" className="w-32 h-32" /> : '⛅'}</span>
           </div>
         </div>
 
